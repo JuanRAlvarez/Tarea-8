@@ -11,7 +11,10 @@ def hammer (x_obs, y_obs, guess, chi_2, step_size ,n_params, n_points):
     
     for i in range(n_points - 1):
         params_init = walk[:,i]
-        params_prime = np.random.normal(walk[:,i],step_size,n_params)
+        params_prime = np.empty((n_params))
+        
+        for j in range(n_params):
+            params_prime[j] = np.random.normal(walk[j,i],step_size[j])
 
         chi_2_init = chi_2(x_obs, y_obs, params_init)
         chi_2_prime = chi_2(x_obs, y_obs, params_prime)

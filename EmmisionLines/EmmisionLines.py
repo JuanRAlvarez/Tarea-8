@@ -15,15 +15,23 @@ def chi_2 (x_obs, y_obs, params):
 datos = np.loadtxt("energy_counts.dat")
 x_obs = datos[:,0]
 y_obs = datos[:,1]
-guess = [1,1,1,1,1]
-step_size = 0.5
+guess = [10**16, 1000, 1400, 10**2, -4]
+step_size = [10**13, 1, 1, 0.1, 10**-3]
+
 n_params = 5
-n_points = 500000
+n_points = 100000
 
 best, walk, chi2 = MCMC.hammer(x_obs, y_obs, guess, chi_2, step_size ,n_params, n_points)
 
-print best
+print "El valor de A es", best[0]
+print "El valor de B es", best[1]
+print "El valor de E0 es", best[2]
+print "El valor de sigma es", best[3]
+print "El valor de alpha es", best[4]
+
 plt.plot(walk[0,:],walk[1,:])
+plt.show()
+plt.plot(walk[2,:],walk[3,:])
 plt.show()
 plt.scatter(x_obs,y_obs)
 plt.plot(x_obs,my_model(x_obs,best))
