@@ -57,7 +57,7 @@ guess = [20,5,5,40]
 step_size = [0.01,0.01,0.01,0.01]
 
 n_params = 4
-n_points = 50000
+n_points = 100000
 
 best, walk, chi2 = MCMC.hammer(tiempos,[x_obs , y_obs] , guess, chi_2, step_size ,n_params, n_points)
 
