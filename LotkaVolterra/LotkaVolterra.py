@@ -71,6 +71,11 @@ f1=open('valores.dat', 'w+')
 for i in range(n_points):
     f1.write('%f %f %f %f %f\n' %(walk[0,i], walk[1,i], walk[2,i], walk[3,i],chi2[i]))
 
+
+#UNCERTAINTIES: SELECCIONO UNOS CUANTOS VALORES QUE SATISFAGAN LAS CONDICIONES PEDIDAS:
+
+
+
 plt.scatter(tiempos,y_obs,c='g')
 plt.scatter(tiempos,x_obs,c='r')
 plt.plot(t,my_model(t,best))
