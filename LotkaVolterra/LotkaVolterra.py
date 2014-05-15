@@ -53,11 +53,11 @@ def chi_2 (tiempos, X_obs, params):
     chi2_2 = sum((y_obs - my_model(tiempos,params)[:,1])**2)
     return chi2_1+chi2_2
 
-guess = [10,1,1,10]
-step_size = [0.1,0.01,0.01,0.1]
+guess = [20,5,5,40]
+step_size = [0.01,0.01,0.01,0.01]
 
 n_params = 4
-n_points = 100000
+n_points = 50000
 
 best, walk, chi2 = MCMC.hammer(tiempos,[x_obs , y_obs] , guess, chi_2, step_size ,n_params, n_points)
 
@@ -66,20 +66,33 @@ print "El valor de beta es", best[1]
 print "El valor de gamma es", best[2]
 print "El valor de delta es", best[3]
 
-plt.plot(walk[0,:],walk[1,:])
+plt.plot(walk[1,:],walk[0,:])
 plt.xlabel('$\\alpha$')
-plt.ylabel('$\beta$')
+plt.ylabel('$\\beta$')
 plt.title('$\\alpha$ vs. $\\beta$')
 plt.savefig("alphavsbeta.pdf")
 plt.close()
 
-plt.plot(walk[2,:],walk[3,:])
+plt.plot(walk[2,:],walk[0,:])
+plt.xlabel('$\gamma$')
+plt.ylabel('$\\alpha$')
+plt.title('$\\alpha$ vs. $\gamma$')
+plt.savefig("alphavsgamma.pdf")
+plt.close()
+
+plt.plot(walk[3,:],walk[0,:])
+plt.xlabel('$\delta$')
+plt.ylabel('$\\alpha$')
+plt.title('$\\alpha$ vs. $\delta$')
+plt.savefig("alphavsdelta.pdf")
+plt.close()
+
+plt.plot(walk[3,:],walk[2,:])
 plt.xlabel('$\gamma$')
 plt.ylabel('$\delta$')
 plt.title('$\gamma$ vs. $\delta$')
 plt.savefig("gammavsdelta.pdf")
 plt.close()
-
 
 plt.scatter(tiempos,y_obs)
 plt.scatter(tiempos,x_obs)
