@@ -10,6 +10,9 @@ def hammer (x_obs, y_obs, guess, chi_2, step_size ,n_params, n_points):
     chi2[0] = chi_2(x_obs,y_obs,guess)
     
     for i in range(n_points - 1):
+        
+        print "voy en el paso", i
+        
         params_init = walk[:,i]
         params_prime = np.empty((n_params))
         
