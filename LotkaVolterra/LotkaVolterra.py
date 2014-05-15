@@ -33,11 +33,11 @@ indices = [find(element, t) for element in tiempos]
 
 state0 = [datos[0,1],datos[0,2]]
 
-def LotkaVolterra(state,t, alpha, beta, sigma, gamma):
+def LotkaVolterra(state,t, alpha, beta, gamma, delta):
     x = state[0]
     y = state[1]
     xd = x*(alpha - beta*y)
-    yd = -y*(gamma - sigma*x)
+    yd = -y*(gamma - delta*x)
     return [xd,yd]
 
 #MODELLING
@@ -53,11 +53,11 @@ def chi_2 (tiempos, X_obs, params):
     chi2_2 = sum((y_obs - my_model(tiempos,params)[:,1])**2)
     return chi2_1+chi2_2
 
-guess = [20,5,5,40]
-step_size = [0.01,0.01,0.01,0.01]
+guess = [10,10,10,10]
+step_size = [0.1,0.1,0.1,0.1]
 
 n_params = 4
-n_points = 100000
+n_points = 1000
 
 best, walk, chi2 = MCMC.hammer(tiempos,[x_obs , y_obs] , guess, chi_2, step_size ,n_params, n_points)
 
@@ -66,39 +66,17 @@ print "El valor de beta es", best[1]
 print "El valor de gamma es", best[2]
 print "El valor de delta es", best[3]
 
-plt.plot(walk[1,:],walk[0,:])
-plt.xlabel('$\\alpha$')
-plt.ylabel('$\\beta$')
-plt.title('$\\alpha$ vs. $\\beta$')
-plt.savefig("alphavsbeta.pdf")
-plt.close()
+f1=open('valores.dat', 'w+')
 
-plt.plot(walk[2,:],walk[0,:])
-plt.xlabel('$\gamma$')
-plt.ylabel('$\\alpha$')
-plt.title('$\\alpha$ vs. $\gamma$')
-plt.savefig("alphavsgamma.pdf")
-plt.close()
+for i in range(n_points):
+    f1.write('%f %f %f %f %f\n' %(walk[0,i], walk[1,i], walk[2,i], walk[3,i],chi2[i]))
 
-plt.plot(walk[3,:],walk[0,:])
-plt.xlabel('$\delta$')
-plt.ylabel('$\\alpha$')
-plt.title('$\\alpha$ vs. $\delta$')
-plt.savefig("alphavsdelta.pdf")
-plt.close()
-
-plt.plot(walk[3,:],walk[2,:])
-plt.xlabel('$\gamma$')
-plt.ylabel('$\delta$')
-plt.title('$\gamma$ vs. $\delta$')
-plt.savefig("gammavsdelta.pdf")
-plt.close()
-
-plt.scatter(tiempos,y_obs)
-plt.scatter(tiempos,x_obs)
+plt.scatter(tiempos,y_obs,c='g')
+plt.scatter(tiempos,x_obs,c='r')
 plt.plot(t,my_model(t,best))
 plt.xlabel('$Poblacion$')
 plt.ylabel('$Tiempo$')
 plt.title('Ajuste de los parametros')
 plt.savefig("Ajuste.pdf")
 plt.close()
+
