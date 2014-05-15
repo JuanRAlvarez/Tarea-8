@@ -54,10 +54,10 @@ def chi_2 (tiempos, X_obs, params):
     return chi2_1+chi2_2
 
 guess = [10,10,10,10]
-step_size = [0.1,0.1,0.1,0.1]
+step_size = [0.01,0.01,0.01,0.01]
 
 n_params = 4
-n_points = 1000
+n_points = 10000
 
 best, walk, chi2 = MCMC.hammer(tiempos,[x_obs , y_obs] , guess, chi_2, step_size ,n_params, n_points)
 
@@ -77,6 +77,14 @@ plt.plot(t,my_model(t,best))
 plt.xlabel('$Poblacion$')
 plt.ylabel('$Tiempo$')
 plt.title('Ajuste de los parametros')
-plt.savefig("Ajuste.pdf")
+plt.savefig("Ajuste1.pdf")
+plt.close()
+
+plt.scatter(x_obs,y_obs,c='g')
+plt.plot(my_model(t,best)[:,0],my_model(t,best)[:,1])
+plt.xlabel('$Poblacion_x$')
+plt.ylabel('$Poblacion_y$')
+plt.title('Ajuste de los parametros')
+plt.savefig("Ajuste2.pdf")
 plt.close()
 
