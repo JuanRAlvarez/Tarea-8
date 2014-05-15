@@ -53,7 +53,7 @@ def chi_2 (tiempos, X_obs, params):
     chi2_2 = sum((y_obs - my_model(tiempos,params)[:,1])**2)
     return chi2_1+chi2_2
 
-guess = [10,10,10,10]
+guess = [30,5,50,2]
 step_size = [0.01,0.01,0.01,0.01]
 
 n_params = 4
